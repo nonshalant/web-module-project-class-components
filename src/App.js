@@ -16,14 +16,35 @@ class App extends React.Component {
       {
         task: 'Bake Cookies',
         id: 1528817084358,
-        completed: false
-      }
+        completed: true
+      },
     ]
     }
   }
     
   
-  
+  handleClear = () =>{
+    this.setState({
+      ...this.state,
+      todos : this.state.toDos.filter(item => {
+        return item.completed === false
+      })
+    }
+    )
+  }
+
+  changeText = (task) =>{
+    const newTodo = {
+      task: task,
+      id: Date.now(),
+      completed: false
+    };
+
+    this.setState({
+      ...this.state,
+      toDos: [...this.state.toDos, newTodo]
+    })
+  }
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
   render() {
@@ -31,7 +52,8 @@ class App extends React.Component {
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoList toDos = {this.state.toDos} id = {this.state.id}/>
-        <TodoForm />
+        <TodoForm changeText={this.changeText}/>
+        <button onClick={this.handleClear}>Clear ToDo</button>
       </div>
     );
   }
